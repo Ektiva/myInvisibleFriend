@@ -186,34 +186,16 @@ export const navigation: FuseNavigation[] = [
                         url  : '/pages/auth/login-2'
                     },
                     {
-                        id   : 'register',
-                        title: 'Register',
-                        type : 'item',
-                        url  : '/pages/auth/register'
-                    },
-                    {
                         id   : 'register-v2',
                         title: 'Register v2',
                         type : 'item',
                         url  : '/pages/auth/register-2'
                     },
                     {
-                        id   : 'forgot-password',
-                        title: 'Forgot Password',
-                        type : 'item',
-                        url  : '/pages/auth/forgot-password'
-                    },
-                    {
                         id   : 'forgot-password-v2',
                         title: 'Forgot Password v2',
                         type : 'item',
                         url  : '/pages/auth/forgot-password-2'
-                    },
-                    {
-                        id   : 'reset-password',
-                        title: 'Reset Password',
-                        type : 'item',
-                        url  : '/pages/auth/reset-password'
                     },
                     {
                         id   : 'reset-password-v2',
@@ -226,12 +208,6 @@ export const navigation: FuseNavigation[] = [
                         title: 'Lock Screen',
                         type : 'item',
                         url  : '/pages/auth/lock'
-                    },
-                    {
-                        id   : 'mail-confirmation',
-                        title: 'Mail Confirmation',
-                        type : 'item',
-                        url  : '/pages/auth/mail-confirm'
                     }
                 ]
             },
