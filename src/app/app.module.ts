@@ -36,10 +36,6 @@ const appRoutes: Routes = [
         loadChildren: () => import('./main/ui/ui.module').then(m => m.UIModule)
     },
     {
-        path        : 'documentation',
-        loadChildren: () => import('./main/documentation/documentation.module').then(m => m.DocumentationModule)
-    },
-    {
         path      : '**',
         // redirectTo: 'apps/dashboards/analytics'
         redirectTo: '/pages/auth/login-2'
