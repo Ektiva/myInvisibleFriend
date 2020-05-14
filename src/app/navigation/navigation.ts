@@ -180,12 +180,6 @@ export const navigation: FuseNavigation[] = [
                 },
                 children: [
                     {
-                        id   : 'login',
-                        title: 'Login',
-                        type : 'item',
-                        url  : '/pages/auth/login'
-                    },
-                    {
                         id   : 'login-v2',
                         title: 'Login v2',
                         type : 'item',

@@ -8,6 +8,10 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
+import { User } from 'app/_models/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'app/_services/auth.service';
+import { UserService } from 'app/_services/user.service';
 
 @Component({
     selector     : 'toolbar',
@@ -26,6 +30,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
 
+    user: User; 
+    photoUrl: string;
+    
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -37,6 +45,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
      * @param {TranslateService} _translateService
      */
     constructor(
+        private route: ActivatedRoute, 
+        private userService: UserService,
+        public authService: AuthService, 
+        private router: Router,
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService
@@ -115,6 +127,11 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
+
+        this.route.data.subscribe(data => {
+           this.user = data['user'];
+          });
+        this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
     }
 
     /**
