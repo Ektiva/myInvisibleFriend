@@ -75,7 +75,7 @@ export class Login2Component implements OnInit
         }, error => {
           console.log(error);
         }, () => {
-            this.router.navigate(['apps/academy/course/' ]);
+            this.router.navigate(['apps/members/ifriends/' ]);
         });
       }
 }

@@ -1,6 +1,17 @@
-<div id="about" class="p-24" fxLayout="row wrap">
+<div class="col-sm-8">
+    <div *ngIf="editForm.dirty" class="alert alert-info" style="color: red">
+      <strong>Information:</strong> You have made changes. Any unsaved changes
+      will be lost!
+    </div>
+</div>
 
-    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+
+
+<div id="about" class="p-24" fxLayout="row wrap">
+  <form #editForm="ngForm" id="editForm"  (ngSubmit)="UpdateUser()"
+  class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+
+    <!-- <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65"> -->
 
         <div class="profile-box info-box general" fxLayout="column">
 
@@ -9,149 +20,258 @@
             </header>
 
             <div class="content">
-                <div class="info-line">
-                    <div class="title">Gender</div>
-                    <div class="info">{{about.general.gender}}</div>
-                </div>
 
-                <div class="info-line">
-                    <div class="title">Birthday</div>
-                    <div class="info">{{about.general.birthday}}</div>
-                </div>
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                         Personal data
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Enter or Edit your Personal data
+                          <mat-icon>account_circle</mat-icon>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
 
-                <div class="info-line">
-                    <div class="title">Locations</div>
-                    <div class="info location" fxLayout="row" fxLayoutAlign="start center"
-                         *ngFor="let location of about.general.locations">
-                        <span>{{location}}</span>
-                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
-                    </div>
-                </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Username</mat-label>
+                        <input name="username" matInput placeholder="Username.." [(ngModel)]="user.username">
+                        <mat-icon matSuffix>mode_edit</mat-icon>
+                      </mat-form-field>
 
-                <div class="info-line">
-                    <div class="title">About Me</div>
-                    <div class="info">{{about.general.about}}</div>
-                </div>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Lastname</mat-label>
+                        <input name="lastname" matInput placeholder="Lastname.." [(ngModel)]="user.lastname">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Known As</mat-label>
+                        <input name="knowAs" matInput placeholder="Know As.." [(ngModel)]="user.knownAs">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-full-width">
+                      <mat-label>Gender</mat-label>
+                      <select matInput name="gender" matNativeControl required [(ngModel)]="user.gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="example-full-width">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput name="dateOfBirth" [matDatepicker]="picker" [(ngModel)]="user.dateOfBirth">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <table class="example-full-width" cellspacing="0">
+                      <tr>Height & Weight</tr>
+                      <tr>
+                      <td><mat-form-field class="example-full-width">
+                        <mat-label>Feet</mat-label>
+                        <input matInput name="feet" placeholder="Feet.." type="number" [(ngModel)]="user.feet">
+                      </mat-form-field></td><span>'</span>
+                      <td><mat-form-field class="example-full-width">
+                        <mat-label>Inch</mat-label>
+                        <input matInput name="inch" placeholder="Inch" type="number" [(ngModel)]="user.size">
+                      </mat-form-field></td><span>"</span>
+                      <td><mat-form-field class="example-full-width">
+                        <mat-label>Weight</mat-label>
+                        <input matInput name="pound" placeholder="Weight" type="number" [(ngModel)]="user.pound">
+                      </mat-form-field></td><span>Kg</span>
+                    </tr></table>
+
+                      <mat-action-row>
+                        <button mat-button color="primary" (click)="nextStep()">Next</button>
+                      </mat-action-row>
+                    </mat-expansion-panel>
+                  
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          About me
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Tells other who you are and your goal
+                          <mat-icon>dns</mat-icon>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <textarea class="example-full-width" name="introduction" placeholder="About me.." [(ngModel)]="user.introduction"></textarea>
+                      
+                      <!-- <mat-form-field class="example-full-width">
+                        <mat-label>Description</mat-label>
+                        <input name="introduction" matInput placeholder="About me.." [(ngModel)]="user.introduction">
+                     </mat-form-field> -->
+
+                     <mat-form-field class="example-full-width">
+                        <mat-label>Looking For</mat-label>
+                        <input name="lookingFor" matInput placeholder="Looking For.." [(ngModel)]="user.lookingFor">
+                     </mat-form-field>
+
+                     <mat-form-field class="example-full-width">
+                        <mat-label>Interests</mat-label>
+                        <input name="interests" matInput placeholder="Interests.." [(ngModel)]="user.interests">
+                     </mat-form-field>
+                  
+                      <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                        <button mat-button color="primary" (click)="nextStep()">Next</button>
+                      </mat-action-row>
+                    </mat-expansion-panel>
+                  
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Address
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Tells other were you leave
+                          <mat-icon>home</mat-icon>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                  
+                      <mat-form-field class="example-full-width">
+                        <mat-label>City of Residence</mat-label>
+                        <input matInput name="city" placeholder="City.." [(ngModel)]="user.city">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Country of Residence</mat-label>
+                        <input name="country" matInput placeholder="Country.." [(ngModel)]="user.country">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Country of Origin</mat-label>
+                        <input name="address" matInput placeholder="Origin.." [(ngModel)]="user.address">
+                    </mat-form-field>
+                  
+                      <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                        <button mat-button color="primary" (click)="nextStep()">Next</button>
+                      </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(3)" hideToggle>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Contact
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            My Contacts
+                            <mat-icon>contacts</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Phone </mat-label>
+                            <input matInput name="phone" placeholder="Phone.." [(ngModel)]="user.phone">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Email</mat-label>
+                            <input name="email" matInput placeholder="Email.." [(ngModel)]="user.email">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Company</mat-label>
+                            <input name="company" matInput placeholder="Company.." [(ngModel)]="user.company">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Job Title</mat-label>
+                            <input name="jobTitle" matInput placeholder="Job Title.." [(ngModel)]="user.jobtitle">
+                        </mat-form-field>
+                    
+                        <mat-action-row>
+                          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                          <button mat-button color="primary" (click)="nextStep()">End</button>
+                        </mat-action-row>
+                      </mat-expansion-panel>
+                  
+                  </mat-accordion>
+
+                  <footer fxLayout="row" fxLayoutAlign="space-between center">
+    
+                    <button  
+                        [disabled]="!editForm.dirty"
+                        form="editForm" 
+                        mat-raised-button color="accent" class="post-button" aria-label="POST">SAVE CHANGES</button>
+
+                </footer>
+
             </div>
 
         </div>
 
-        <div class="profile-box info-box work" fxLayout="column">
-
-            <header class="accent">
-                <div class="title">Work</div>
-            </header>
-
-            <div class="content">
-                <div class="info-line">
-                    <div class="title">Occupation</div>
-                    <div class="info">{{about.work.occupation}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Skills</div>
-                    <div class="info">{{about.work.skills}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Jobs</div>
-                    <table class="info jobs">
-                        <tr class="job" *ngFor="let job of about.work.jobs">
-                            <td class="company">{{job.company}}</td>
-                            <td class="date">{{job.date}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="profile-box info-box contact" fxLayout="column">
-
-            <header class="accent">
-                <div class="title">Contact</div>
-            </header>
-
-            <div class="content">
-                <div class="info-line">
-                    <div class="title">Address</div>
-                    <div class="info">{{about.contact.address}}</div>
-                </div>
-                <div class="info-line">
-                    <div class="title">Tel.</div>
-                    <div class="info" *ngFor="let tel of about.contact.tel">
-                        <span>{{tel}}</span>
-                    </div>
-                </div>
-                <div class="info-line">
-                    <div class="title">Website</div>
-                    <div class="info" *ngFor="let website of about.contact.websites">
-                        <span>{{website}}</span>
-                    </div>
-                </div>
-                <div class="info-line">
-                    <div class="title">Emails</div>
-                    <div class="info" *ngFor="let email of about.contact.emails">
-                        <span>{{email}}</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+    <!-- </div> -->
+  </form>
 
     <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
+        <mat-card class="profile-box friends example-card" fxLayout="column" style="background-color: #FBC02D;">
+            <mat-card-header >
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>{{user.lastname}} {{user.knownAs}} </mat-card-title>
+              <mat-card-subtitle center>{{user.age}} years old</mat-card-subtitle>
+            </mat-card-header>
+            <img *ngIf="user.avatar" mat-card-image src="{{user.avatar}}" alt="Photo of a current User">
+            <!-- <img *ngIf="user.avatar" mat-card-image src="assets/avatars/user.png" alt="Photo of a current User"> -->
+            <button *ngIf="user.avatar" color="primary" mat-raised-button (click)="openBottomSheet()"> Change Avatar<mat-icon>edit</mat-icon> </button>
+            <p *ngIf="!user.avatar">Click to Select the Avatar which best describe yourself</p>
+            <button *ngIf="!user.avatar" color="primary" mat-raised-button (click)="openBottomSheet()">Select Avatar</button>
+            <!-- <button  *ngIf="user.avatar" 
+                      mat-raised-button color="accent" class="post-button" aria-label="POST">SELECT AVATAR</button> -->
 
-        <div class="profile-box friends" fxLayout="column">
+            <mat-card-content>
+                <div layout-margin>
+                    <strong style="color: green;">Last Active : </strong>
+                    <span class="secondary-text">{{ user.lastActive | TimeAgoExtendsPipe }}</span>
+                </div>
+                <div class="pt-2">
+                    <strong style="color: green;">Member since : </strong>
+                    <span class="secondary-text" >{{ user.created | date: 'longDate' }}</span>
+                </div>
+            </mat-card-content>
+          </mat-card>
+        <!-- <div class="profile-box friends" fxLayout="column">
 
             <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="title">Friends</div>
+                <div class="title">{{user.knownAs}}</div>
                 <div class="more secondary-text">
-                    <span>See 454 more...</span>
+                    <span>{{user?.email}}</span>
                 </div>
             </header>
 
             <div class="content" fxLayout="row wrap">
-                <div class="friend" fxFlex="20" *ngFor="let friend of about.friends">
-                    <img [src]="friend.avatar">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="profile-box groups" fxLayout="column">
-
-            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="title">Joined Groups</div>
-                <div class="more secondary-text">
-                    <span>See 6 more...</span>
-                </div>
-            </header>
-
-            <div class="content">
-
-                <div class="group" *ngFor="let group of about.groups" fxLayout="row"
-                     fxLayoutAlign="space-between center">
-
-                    <div fxLayout="row" fxLayoutAlign="start center">
-
-                        <div class="logo">{{group.name.substring(0,1)}}</div>
-
-                        <div>
-                            <div class="name">{{group.name}}</div>
-                            <div class="category">{{group.category}}</div>
-                            <div class="members">{{group.members}} people</div>
+                <mat-card class="example-card">
+                    <mat-card-header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="title">{{user.knownAs}}</div>
+                        <div class="more secondary-text">
+                            <span>{{user?.email}}</span>
                         </div>
-                    </div>
+                    </mat-card-header>
 
-                    <button mat-icon-button aria-label="More">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                </div>
+                    <mat-card-content>
+                        <img mat-card-image src="{{user.avatar}}" alt="Photo of a current User">
+                        <div layout-margin>
+                            <mat-label flex>Age: </mat-label>
+                            <span class="secondary-text">{{ user.age }}</span>
+                        </div>
+                        <div layout-margin>
+                            <strong flex>Last Active : </strong>
+                            <span class="secondary-text">{{ user.lastActive | TimesAgoPipe }}</span>
+                        </div>
+                        <div class="pt-2">
+                            <strong>Member registered on : </strong>
+                            <span class="secondary-text">{{ user.created | date: 'longDate' }}</span>
+                        </div>
+                    </mat-card-content>
+                  </mat-card>
             </div>
 
-        </div>
+        </div> -->
 
     </div>
 
 </div>
+
+

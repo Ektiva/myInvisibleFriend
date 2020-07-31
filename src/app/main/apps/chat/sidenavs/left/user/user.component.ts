@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { ChatService } from 'app/main/apps/chat/chat.service';
+import { AuthService } from 'app/_services/auth.service';
+import { User } from 'app/_models/user';
 
 @Component({
     selector     : 'chat-user-sidenav',
@@ -14,6 +16,7 @@ import { ChatService } from 'app/main/apps/chat/chat.service';
 export class ChatUserSidenavComponent implements OnInit, OnDestroy
 {
     user: any;
+    currUser: User;
     userForm: FormGroup;
 
     // Private
@@ -25,6 +28,7 @@ export class ChatUserSidenavComponent implements OnInit, OnDestroy
      * @param {ChatService} _chatService
      */
     constructor(
+        public authService: AuthService,
         private _chatService: ChatService
     )
     {
@@ -41,7 +45,8 @@ export class ChatUserSidenavComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.user = this._chatService.user;
+        this.user = this._chatService.userr;
+        this.currUser = this.authService.currentUser;
 
         this.userForm = new FormGroup({
             mood  : new FormControl(this.user.mood),
@@ -55,9 +60,9 @@ export class ChatUserSidenavComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(data => {
-                this.user.mood = data.mood;
-                this.user.status = data.status;
-                this._chatService.updateUserData(this.user);
+                this.currUser.mood = data.mood;
+                this.currUser.status = data.status;
+                this._chatService.updateUserData(this.currUser);
             });
     }
 

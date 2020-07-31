@@ -1,0 +1,110 @@
+<div id="academy-courses" class="page-layout simple">
+
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="hero-text">
+            <mat-icon class="hero-icon">school</mat-icon>
+            <h1 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+               My Blinds Likers & Likees
+            </h1>
+            <h3 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+                Checkout members who likes you and members who you likes
+            </h3>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="center">
+
+            <div class="filters line2" fxLayout="column" fxLayoutAlign="center center"
+                 fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+                 <div class="text-center mt-2">
+                    <h2>{{likesParam === 'Likers' ? 'Members who like me' : 'Members who I\'ve Liked'}} : {{this.pagination.totalItems}}</h2>
+                </div>
+
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle (click)="loadUsers('Likers')" value="Likers" class="light-green">  <mat-icon >thumb_up</mat-icon>Members who like me</mat-button-toggle>
+                    <mat-button-toggle (click)="loadUsers('Likees')" value="Likees" class="pink"> <mat-icon >favorite</mat-icon> Members who I like</mat-button-toggle>
+                </mat-button-toggle-group>
+
+            </div>
+
+            <div *ngFor="let user of users" id="container">
+                <div class="product-details">                       
+                    <h1>{{ user.knownAs}} </h1>
+                   <span class="test2" >{{ user.gender}} - {{ user.age}}</span>                  
+
+                    <div class="card-divider"></div>
+                    
+                        <div class=" pt-4">
+                            <div class="mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="test3">Software Engineer - {{ user.country}}</div>
+                            </div>
+                            <div class=" pb-4">                        
+                                <div class="pb-8" fxLayoutAlign="start center">
+                                    <mat-icon class="icon s-16 mr-16">timeline</mat-icon>
+                                    <div>{{user.feet}}' {{user.size}}"</div>
+                                </div>
+                                <div class="pb-8" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="icon s-16 mr-16">line_weight</mat-icon>
+                                    <div>{{user.pound}} kg</div>
+                                </div>
+                            </div>
+                    
+                            <div class="mb-12" fxLayout="row" fxLayoutAlign="center center">
+                                <div class="updated"> {{user.introduction | slice:0:100}}..</div>
+                            </div>
+                        </div> 
+                        <hr style="color: lightgray">
+
+                    <div class="control"></div>    
+                    <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="center center">
+                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <button mat-button color="accent" (click)="sendLike(user.id)">                     
+                                    <mat-icon class="s-32 favorite mr-sm-4">{{likesParams.get(user.id)}}</mat-icon>
+                            </button>
+
+                            <button  mat-button color="accent"
+                                    [routerLink]="'/apps/chat'">
+                                    <mat-icon class="s-32 mr-sm-4">chat</mat-icon>
+                            </button>
+                            
+                            <button mat-button color="accent"
+                                    [routerLink]="'/pages/member/' + user.id">
+                                    
+                                    <mat-icon class="s-32 mr-sm-4">arrow_forward</mat-icon>
+                            </button>
+                        </div>
+                    </div>                       
+                </div>                   
+                <div class="product-image">                   
+                    <img src="assets/images/others/flowers.jpg" alt="Omar Dsoky">
+                    <div class="info">
+                        <h2>More About {{ user.knownAs}}</h2>
+                        <ul>
+                            <li><strong>Age: </strong>{{user.age}} years old</li>
+                            <li><strong>Last Active: </strong>{{user.lastActive | TimesAgosPipe}}</li>
+                            <li><strong>Member since: </strong>{{ user.created | date: 'longDate' }}</li>
+                            <li><strong>From: </strong>{{user.address}}</li>
+                            <li><strong>Leave at: </strong>{{user.city}}, {{user.country}}</li>
+                            <li><strong>Interests: </strong>{{user.interests}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!-- <div class="d-flex justify-content-center">
+    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+      >
+    
+    </pagination>
+</div> -->

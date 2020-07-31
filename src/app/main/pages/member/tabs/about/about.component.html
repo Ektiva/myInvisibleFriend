@@ -1,0 +1,162 @@
+<div id="about" class="p-24" fxLayout="row wrap">
+
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+
+        <div class="profile-box info-box general" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">General Information</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Gender</div>
+                    <div class="info">{{user.gender}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Known As</div>
+                    <div class="info">{{user.knownAs}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Birthday</div>
+                    <div class="info">{{user.dateOfBirth | date}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Locations</div>
+                    <div class="info location" fxLayout="row" fxLayoutAlign="start center">
+                        <!-- <mat-icon class="s-16 ml-4">home</mat-icon> -->
+                        <span>{{user.city}}, {{user.country}} <span class="alert alert-info" style="color: orange">(Residence)</span></span>
+                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
+                    </div>
+                    <div class="info location" fxLayout="row" fxLayoutAlign="start center">
+                        <!-- <mat-icon class="s-16 ml-4">flag</mat-icon> -->
+                        <span>{{user.address}}  <span class="alert alert-info" style="color: orange">(Origin)</span> </span>
+                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
+                    </div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">About Me</div>
+                    <div class="info">{{user.introduction}}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contact</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Phone</div>
+                    <div class="info">{{user?.phone}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info">{{user?.email}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Occupation</div>
+                    <div class="info">{{user?.jobtitle}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Company</div>
+                    <div class="info">{{user?.company}}</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Other</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Looking For</div>
+                    <div class="info">{{user.lookingFor}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Interests</div>
+                    <div class="info">{{user.interests}}</div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
+        <mat-card class="profile-box friends example-card" fxLayout="column" style="background-color: #FBC02D;">
+            <mat-card-header >
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>{{user.lastname}} {{user.knownAs}} </mat-card-title>
+              <mat-card-subtitle center>{{user.age}} years old</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{user.avatar}}" alt="Photo of a current User">
+
+            <mat-card-content>
+                <div layout-margin>
+                    <strong style="color: green;">Last Active : </strong>
+                    <span class="secondary-text">{{ user.lastActive | TimesAgoPipe }}</span>
+                </div>
+                <div class="pt-2">
+                    <strong style="color: green;">Member since : </strong>
+                    <span class="secondary-text" >{{ user.created | date: 'longDate' }}</span>
+                </div>
+            </mat-card-content>
+          </mat-card>
+        <!-- <div class="profile-box friends" fxLayout="column">
+
+            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="title">{{user.knownAs}}</div>
+                <div class="more secondary-text">
+                    <span>{{user?.email}}</span>
+                </div>
+            </header>
+
+            <div class="content" fxLayout="row wrap">
+                <mat-card class="example-card">
+                    <mat-card-header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="title">{{user.knownAs}}</div>
+                        <div class="more secondary-text">
+                            <span>{{user?.email}}</span>
+                        </div>
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        <img mat-card-image src="{{user.avatar}}" alt="Photo of a current User">
+                        <div layout-margin>
+                            <mat-label flex>Age: </mat-label>
+                            <span class="secondary-text">{{ user.age }}</span>
+                        </div>
+                        <div layout-margin>
+                            <strong flex>Last Active : </strong>
+                            <span class="secondary-text">{{ user.lastActive | TimesAgoPipe }}</span>
+                        </div>
+                        <div class="pt-2">
+                            <strong>Member registered on : </strong>
+                            <span class="secondary-text">{{ user.created | date: 'longDate' }}</span>
+                        </div>
+                    </mat-card-content>
+                  </mat-card>
+            </div>
+
+        </div> -->
+
+    </div>
+
+</div>

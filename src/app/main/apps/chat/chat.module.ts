@@ -23,6 +23,7 @@ import { ChatUserSidenavComponent } from 'app/main/apps/chat/sidenavs/left/user/
 import { ChatLeftSidenavComponent } from 'app/main/apps/chat/sidenavs/left/left.component';
 import { ChatRightSidenavComponent } from 'app/main/apps/chat/sidenavs/right/right.component';
 import { ChatContactSidenavComponent } from 'app/main/apps/chat/sidenavs/right/contact/contact.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const routes: Routes = [
     {
@@ -48,7 +49,7 @@ const routes: Routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-
+        PickerModule,
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
@@ -61,6 +62,9 @@ const routes: Routes = [
         MatToolbarModule,
 
         FuseSharedModule
+    ],
+    exports   : [
+        PickerModule
     ],
     providers   : [
         ChatService

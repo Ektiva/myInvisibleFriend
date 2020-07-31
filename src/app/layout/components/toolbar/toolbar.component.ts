@@ -93,11 +93,6 @@ export class ToolbarComponent implements OnInit, OnDestroy
                 id   : 'fr',
                 title: 'French',
                 flag : 'fr'
-            },
-            {
-                id   : 'tr',
-                title: 'Turkish',
-                flag : 'tr'
             }
         ];
 
@@ -128,11 +123,17 @@ export class ToolbarComponent implements OnInit, OnDestroy
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
 
-        this.route.data.subscribe(data => {
-           this.user = data['user'];
-          });
+        this.user = this.authService.currentUser;
         this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
     }
+
+    logOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.authService.decodedToken = null;
+        this.authService.currentUser = null;
+        this.router.navigate(['/pages/auth/login-2']);
+      }
 
     /**
      * On destroy

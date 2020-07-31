@@ -11,6 +11,9 @@ export class FuseNavigationService
 {
     onItemCollapsed: Subject<any>;
     onItemCollapseToggled: Subject<any>;
+    
+    navigationSource = new BehaviorSubject<any>({});
+    navigation$ = this.navigationSource.asObservable();
 
     // Private
     private _onNavigationChanged: BehaviorSubject<any>;
@@ -216,7 +219,7 @@ export class FuseNavigationService
 
             return;
         }
-
+        this.navigationSource.next(this.getNavigation(this._currentNavigationKey));
         return this.getNavigation(this._currentNavigationKey);
     }
 

@@ -12,6 +12,7 @@ import { MaintenanceModule } from 'app/main/pages/maintenance/maintenence.module
 import { PricingModule } from 'app/main/pages/pricing/pricing.module';
 import { ProfileModule } from 'app/main/pages/profile/profile.module';
 import { KnowledgeBaseModule } from 'app/main/pages/knowledge-base/knowledge-base.module';
+import { MemberModule } from './member/member.module';
 
 @NgModule({
     imports: [
@@ -37,6 +38,9 @@ import { KnowledgeBaseModule } from 'app/main/pages/knowledge-base/knowledge-bas
 
         // Profile
         ProfileModule,
+
+        // Member
+        MemberModule,
 
         // Knowledge base
         KnowledgeBaseModule

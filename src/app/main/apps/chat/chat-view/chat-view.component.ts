@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 
 import { ChatService } from 'app/main/apps/chat/chat.service';
+import { Console } from 'console';
 
 @Component({
     selector     : 'chat-view',
@@ -21,6 +22,9 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
     contact: any;
     replyInput: any;
     selectedChat: any;
+
+    emojiSelect = false;
+    emojiMessage = '';
 
     @ViewChild(FusePerfectScrollbarDirective)
     directiveScroll: FusePerfectScrollbarDirective;
@@ -56,7 +60,7 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
      */
     ngOnInit(): void
     {
-        this.user = this._chatService.user;
+        this.user = this._chatService.userr;
         this._chatService.onChatSelected
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(chatData => {
@@ -68,6 +72,7 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
                     this.readyToReply();
                 }
             });
+
     }
 
     /**
@@ -179,6 +184,21 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
         }
     }
 
+    addEmoji($event){
+        if($event){
+            let data = this.replyForm.form.value.message;
+            if(data !== null){
+                this.emojiMessage = (data + $event.emoji.native);
+            }else {
+                this.emojiMessage = $event.emoji.native;
+            }          
+        }
+      }
+
+      emojiSelected(){
+        this.emojiSelect = true;
+      }
+
     /**
      * Reply
      */
@@ -190,12 +210,19 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
         {
             return;
         }
+        let recipientId;
+        if(this.dialog[0].who === this.user.id){
+            recipientId = this.dialog[0].whose;
+        }else{
+            recipientId = this.dialog[0].who;
+        }
 
         // Message
         const message = {
             who    : this.user.id,
             message: this.replyForm.form.value.message,
-            time   : new Date().toISOString()
+            time   : new Date().toISOString(),
+            whose  : recipientId
         };
 
         // Add the message to the chat
@@ -205,8 +232,19 @@ export class ChatViewComponent implements OnInit, OnDestroy, AfterViewInit
         this.replyForm.reset();
 
         // Update the server
-        this._chatService.updateDialog(this.selectedChat.chatId, this.dialog).then(response => {
-            this.readyToReply();
-        });
+        this._chatService.sendMessage(this.user.id, message)
+        .subscribe(
+          (message) => {
+              this.readyToReply();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        // this._chatService.updateDialogg(this.selectedChat.chatId, this.dialog).then(response => {
+        //     this.readyToReply();
+        // });
+        this.emojiSelect = false;
     }
+
 }

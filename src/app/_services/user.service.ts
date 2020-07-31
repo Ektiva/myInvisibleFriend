@@ -59,7 +59,7 @@ getUsers(
   if (likesParam === 'Likees') {
     params = params.append('Likees', 'true');
   }
-
+  
   return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
     .pipe(
       map(response => {
@@ -74,8 +74,52 @@ getUsers(
 
 }
 
+getUserss(
+  page?,
+  itemsPerPage?,
+  userParams?,
+  likesParam?
+): Observable<User[]> {
+  let params = new HttpParams();
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  if (userParams != null) {
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
+  }
+
+  if (likesParam === 'Likers') {
+    params = params.append('Likers', 'true');
+  }
+
+  if (likesParam === 'Likees') {
+    params = params.append('Likees', 'true');
+  }
+  
+  return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        return response.body;
+      })
+    );
+
+}
+
 getUser(id): Observable<User>{
   return this.http.get<User>(this.baseUrl + 'users/' + id/*, httpOptions*/);
+}
+getUserr(id): Observable<User>{
+  return this.http.get<User>(this.baseUrl + 'users/userinfo/' + id);
+}
+
+checkLike(id, recipientId): Observable<boolean>{
+  return this.http.get<boolean>(this.baseUrl + 'users/' + id  + '/isLike/' + recipientId);
 }
 
 updateUser(id: number, user: User){
@@ -92,6 +136,10 @@ deletePhoto(userId: number, id: number){
 
 sendLike(id: number, recipientId: number) {
   return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
+}
+
+cancelLike(id: number, recipientId: number) {
+  return this.http.delete(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
 }
 
 getMessages(id: number, page?, itemsPerPage?, messageContainer?) {

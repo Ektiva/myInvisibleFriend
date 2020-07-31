@@ -14,13 +14,36 @@ import { AcademyCourseComponent } from 'app/main/apps/academy/course/course.comp
 import { AcademyCoursesService } from 'app/main/apps/academy/courses.service';
 import { AcademyCourseService } from 'app/main/apps/academy/course.service';
 import { FuseSidebarModule } from '@fuse/components';
+import { MemberListResolver } from 'app/_resolvers/member-list.resolver';
+import { AuthGuard } from 'app/_guards/auth.guard';
+import { ListsResolver } from 'app/_resolvers/lists.resolver';
+import { AcademyLikesComponent } from './likes/likes.component';
+import { LikesResolver } from 'app/_resolvers/likes.resolver';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { TimesAgosPipe } from 'app/TimesAgosPipe.pipe';
+import { DialogElementsExampleDialogComponent } from './DialogElementsExampleDialog/DialogElementsExampleDialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
+
 
 const routes = [
     {
-        path     : 'courses',
+        path     : 'ifriends',
         component: AcademyCoursesComponent,
+        canActivate: [AuthGuard], 
         resolve  : {
-            academy: AcademyCoursesService
+            // academy: AcademyCoursesService
+            users: MemberListResolver,
+            likes: ListsResolver
+        }
+    },
+    {
+        path     : 'likes',
+        component: AcademyLikesComponent,
+        canActivate: [AuthGuard], 
+        resolve  : {
+            users: LikesResolver
         }
     },
     {
@@ -32,14 +55,17 @@ const routes = [
     },
     {
         path      : '**',
-        redirectTo: 'courses'
+        redirectTo: 'ifriends'
     }
 ];
 
 @NgModule({
     declarations: [
         AcademyCoursesComponent,
-        AcademyCourseComponent
+        AcademyLikesComponent,
+        AcademyCourseComponent,
+        DialogElementsExampleDialogComponent,
+        TimesAgosPipe
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -49,9 +75,18 @@ const routes = [
         MatIconModule,
         MatInputModule,
         MatSelectModule,
-
+        MatSnackBarModule,
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatButtonToggleModule,
+        MatDialogModule,
+        MatGridListModule
+    ],
+    exports   : [
+        MatSnackBarModule,
+        MatButtonToggleModule,
+        MatDialogModule,
+        MatGridListModule
     ],
     providers   : [
         AcademyCoursesService,

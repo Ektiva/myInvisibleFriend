@@ -1,158 +1,187 @@
 <div id="timeline" class="p-24" fxLayout="row wrap">
-
-    <div class="timeline-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="55" fxFlex.gt-md="65">
-
-        <div class="profile-box add-post">
-
-            <div class="form" fxFlex>
-
-                <textarea placeholder="Write something.."></textarea>
-
-                <footer fxLayout="row" fxLayoutAlign="space-between center">
-
-                    <div fxLayout="row" fxLayoutAlign="start center">
-
-                        <button mat-icon-button aria-label="Add photo" matTooltip="Add Photo">
-                            <mat-icon>photo</mat-icon>
-                        </button>
-
-                        <button mat-icon-button aria-label="Mention somebody" matTooltip="Mention somebody">
-                            <mat-icon>person</mat-icon>
-                        </button>
-
-                        <button mat-icon-button aria-label="Add location" matTooltip="Add location">
-                            <mat-icon>location_on</mat-icon>
-                        </button>
-
-                    </div>
-
-                    <button mat-raised-button color="accent" class="post-button" aria-label="POST">POST</button>
-
-                </footer>
-
-            </div>
-
+    <div class="col-sm-8">
+        <div *ngIf="editForms.dirty" class="alert alert-info" style="color: red">
+          <strong>Information:</strong> You have made changes. Any unsaved changes
+          will be lost!
         </div>
+      </div>
+    <form #editForms="ngForm" id="editForms" 
+        class="timeline-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="55" fxFlex.gt-md="65"
+        (ngSubmit)="UpdateUser()">
+        <div >
 
-        <mat-divider></mat-divider>
+            <div class="profile-box add-post">
+    
+                <div class="form" fxFlex>   
 
-        <div class="timeline-item" *ngFor="let post of timeline.posts">
+                    <mat-accordion class="example-headers-align">
 
-            <header fxLayout="row" fxLayoutAlign="space-between start">
-                <div class="user" fxLayout="row" fxLayoutAlign="start center">
-                    <img class="avatar" [src]="post.user.avatar">
+                        <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                              <mat-panel-title> About me </mat-panel-title>
+                            </mat-expansion-panel-header>
 
-                    <div fxLayout="column">
-                        <div class="title">
-                            <span class="username">{{post.user.name}}</span>
-                            <span *ngIf="post.type === 'post'">posted on your timeline</span>
-                            <span *ngIf="post.type === 'something'">shared something with you</span>
-                            <span *ngIf="post.type === 'video'">shared a video with you</span>
-                            <span *ngIf="post.type === 'article'">shared an article with you</span>
-                        </div>
-                        <div class="time">{{post.time}}</div>
-                    </div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Username</mat-label>
+                                <input name="username" matInput placeholder="Username.." [(ngModel)]="currUser.username">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Lastname</mat-label>
+                                <input name="lastname" matInput placeholder="Lastname.." [(ngModel)]="currUser.lastname">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Known As</mat-label>
+                                <input name="knowAs" matInput placeholder="Know As.." [(ngModel)]="currUser.knownAs">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Gender </mat-label>
+                                <input matInput>
+                                <mat-radio-group matInput name="gender" aria-label="Select an option" [(ngModel)]="currUser.gender">
+                                    <mat-radio-button value="male">Male</mat-radio-button>
+                                    <mat-radio-button value="female">Female</mat-radio-button>
+                                </mat-radio-group>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill">
+                                <mat-label>Date Of Birth</mat-label>
+                                <input matInput name="dateOfBirth" [matDatepicker]="picker" [(ngModel)]="currUser.dateOfBirth">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel >
+                          <mat-expansion-panel-header>
+                            <mat-panel-title> Description </mat-panel-title>
+                            <!-- <mat-panel-description>  Tell others more about you </mat-panel-description> -->
+                          </mat-expansion-panel-header>
+                          <textarea name="introduction" placeholder="About me.." [(ngModel)]="currUser.introduction"></textarea>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel >
+                          <mat-expansion-panel-header>
+                            <mat-panel-title> Looking for.. </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <input name="lookkingFor" matInput placeholder="Looking For.." [(ngModel)]="currUser.lookingFor">
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel >
+                          <mat-expansion-panel-header>
+                            <mat-panel-title> Interests </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <input name="interests" matInput placeholder="Interests.." [(ngModel)]="currUser.interests">
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                              <mat-panel-title> Address </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>City of Residence</mat-label>
+                                <input matInput name="city" placeholder="City.." [(ngModel)]="currUser.city">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Country of Residence</mat-label>
+                                <input name="country" matInput placeholder="Country.." [(ngModel)]="currUser.country">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Country of Origin</mat-label>
+                                <input name="address" matInput placeholder="Origin.." [(ngModel)]="currUser.address">
+                            </mat-form-field>
+                        </mat-expansion-panel>
+
+
+                        <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                              <mat-panel-title> Contact </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Phone </mat-label>
+                                <input matInput name="phone" placeholder="Phone.." [(ngModel)]="currUser.phone">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Email</mat-label>
+                                <input name="email" matInput placeholder="Email.." [(ngModel)]="currUser.email">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Company</mat-label>
+                                <input name="company" matInput placeholder="Company.." [(ngModel)]="currUser.company">
+                            </mat-form-field>
+
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Job Title</mat-label>
+                                <input name="jobTitle" matInput placeholder="Job Title.." [(ngModel)]="currUser.jobtitle">
+                            </mat-form-field>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+
+                    <footer fxLayout="row" fxLayoutAlign="space-between center">
+    
+                        <button  
+                            [disabled]="!editForms.dirty"
+                            form="editForm" 
+                            mat-raised-button color="accent" class="post-button" aria-label="POST">SAVE CHANGES</button>
+    
+                    </footer>
+    
                 </div>
-
-                <button mat-icon-button aria-label="More">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-            </header>
-
-            <div class="content">
-                <div *ngIf="post.message" class="message">
-                    {{post.message}}
-                </div>
-
-                <div *ngIf="post.media" class="media">
-                    <img *ngIf="post.media.type === 'image'" [src]="post.media.preview">
-                    <div *ngIf="post.media.type === 'video'" [innerHtml]="post.media.embed"></div>
-                </div>
-
-                <div *ngIf="post.article" fxLayout="column" class="article">
-                    <div class="media">
-                        <img [src]="post.article.media.preview">
-                    </div>
-                    <div class="title">{{post.article.title}}</div>
-                    <div class="subtitle">{{post.article.subtitle}}</div>
-                    <div class="excerpt">{{post.article.excerpt}}</div>
-                </div>
-
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <button mat-button class="like-button">
-                        <span fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon class="s-16">favorite</mat-icon>
-                            <span>Like</span>&nbsp;<span>({{post.like}})</span>
-                        </span>
-                    </button>
-                    <button mat-button class="share-button">
-                        <span fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon class="s-16">share</mat-icon>
-                            <span>Share</span>&nbsp;<span>({{post.share}})</span>
-                        </span>
-                    </button>
-                </div>
+    
             </div>
-
-            <footer class="" fxLayout="column" fxLayoutAlign="start start">
-                <div *ngIf="post.comments" class="comment-count" fxLayout="row" fxLayoutAlign="start center">
-                    {{post.comments.length}} comments
-                    <mat-icon class="s-16">keyboard_arrow_down</mat-icon>
-                </div>
-
-                <div class="comment" fxLayout="row" fxFlexFill *ngFor="let comment of post.comments">
-                    <img [src]="comment.user.avatar" class="avatar"/>
-
-                    <div fxLayout="column" fxFlex>
-                        <div fxLayout="row" fxLayoutAlign="start center">
-                            <span class="username">{{comment.user.name}}</span>
-                            <span class="time">{{comment.time}}</span>
-                        </div>
-                        <div class="message">
-                            {{comment.message}}
-                        </div>
-                        <div class="actions" fxLayout="row" fxLayoutAlign="space-between center">
-                            <a href="#" class="reply-button">Reply</a>
-                            <mat-icon fxFlex class="report-button s-16">flag</mat-icon>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="reply" fxLayout="row" fxFlexFill>
-                    <img src="assets/images/avatars/profile.jpg" class="avatar"/>
-
-                    <form fxFlex>
-                        <textarea placeholder="Add a comment..."></textarea>
-                        <button mat-raised-button color="accent" class="post-comment-button" aria-label="Post Comment">
-                            Post Comment
-                        </button>
-                    </form>
-                </div>
-            </footer>
+    
+            <mat-divider></mat-divider>
+    
         </div>
-    </div>
+    </form>
 
     <div class="timeline-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="45" fxFlex.gt-md="35">
 
         <div class="profile-box latest-activity" fxLayout="column">
 
             <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="title">Latest Activity</div>
-                <div class="more secondary-text">See All</div>
+                <div class="title">{{currUser.lastname}} {{currUser.knownAs}}</div>
+                <div class="secondary-text">{{currUser.email}}</div>
+                <!-- <div class="more secondary-text">See All</div> -->
             </header>
 
             <div class="content" fxLayout="row wrap">
                 <div class="activities">
-                    <div class="activity" fxLayout="row" fxLayoutAlign="start start"
-                         *ngFor="let activity of timeline.activities">
-                        <img [src]="activity.user.avatar" class="avatar" alt="{{activity.user.name}}"/>
+
+                    
+                    <div class="activity" fxLayout="row" fxLayoutAlign="start start">
 
                         <div fxLayout="column">
-                            <div>
-                                <span class="username">{{activity.user.name}}</span>
-                                <span class="message"> {{activity.message}}</span>
-                            </div>
-                            <span class="time secondary-text">{{activity.time}}</span>
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                  <div mat-card-avatar class="example-header-image"></div>
+                                  <!-- <mat-card-title>{{currUser.lastname}} {{currUser.knownAs}} </mat-card-title>
+                                  <mat-card-subtitle>{{currUser.email}}</mat-card-subtitle> -->
+                                </mat-card-header>
+                                <img mat-card-image src="{{currUser.avatar}}" alt="Photo of a current User">
+
+                                <mat-card-content>
+                                    <div layout-margin>
+                                        <mat-label flex>Age: </mat-label>
+                                        <span class="secondary-text">{{ currUser.age }}</span>
+                                    </div>
+                                    <div layout-margin>
+                                        <strong flex>Last Active : </strong>
+                                        <span class="secondary-text">{{ currUser.lastActive | TimeAgoExtendsPipe }}</span>
+                                    </div>
+                                    <div class="pt-2">
+                                        <strong>Member registered on : </strong>
+                                        <span class="secondary-text">{{ currUser.created | date: 'longDate' }}</span>
+                                    </div>
+                                </mat-card-content>
+                              </mat-card>
+                           
                         </div>
                     </div>
                 </div>

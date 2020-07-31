@@ -14,13 +14,29 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
+  base1Url = environment.apiUrl;
+
+  // userLogin = new BehaviorSubject<User>();
+  // currentPhotoUrl = this.photoUrl.asObservable();
+
   photoUrl = new BehaviorSubject<string>('../../assets/user.png');
   currentPhotoUrl = this.photoUrl.asObservable();
 
+  avatar = new BehaviorSubject<string>('');
+  currentAvatar = this.avatar.asObservable();
+
 constructor(private http: HttpClient) { }
+
+chooseAvatar(avatar: string){
+  this.avatar.next(avatar);
+}
 
 changeMemberPhoto(photoUrl: string){
   this.photoUrl.next(photoUrl);
+}
+
+checkEmailExists(email: string) {
+  return this.http.get(this.baseUrl + 'emailexists?email=' + email);
 }
 
 login(model: any){
@@ -37,6 +53,10 @@ login(model: any){
         }
       })
     );
+}
+
+getUser(id: number) {
+  return this.http.get(this.base1Url + 'users/userInfo/' + id);
 }
 
 register(user: User) {

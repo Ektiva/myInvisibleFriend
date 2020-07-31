@@ -1,0 +1,76 @@
+<mat-grid-list *ngIf="data.gender == 'female'" cols="2" rowHeight="2:1">
+  <mat-grid-tile href="">
+    <img  (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/justin.svg?options[skin][]=darkBrown&options[hairColor][]=brown&options[mouth][]=tongue')" class="logo-icon" 
+      mat-line src="assets/avatars/Black_Women_Tongue.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/hello.svg?options[skin][]=darkBrown&options[hairColor][]=auburn&options[mouth][]=serious')" 
+      mat-line src="assets/avatars/Black_Women_Serious.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/ektiva.svg?options[skin][]=darkBrown&options[hairColor][]=brown&options[mouth][]=twinkle')" 
+      mat-line src="assets/avatars/Black_Women_Twinkle.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/estelle.svg?options[skin][]=black&options[hairColor][]=brown&options[mouth][]=twinkle')" 
+      mat-line src="assets/avatars/Dark_Black_Women_Twinkle.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/lil.svg?options[skin][]=darkBrown&options[hairColor][]=black&options[mouth][]=serious')" 
+      mat-line src="assets/avatars/Black_Women_Serious1.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/lovely.svg?options[skin][]=darkBrown&options[hairColor][]=black&options[mouth][]=twinkle')" 
+      mat-line src="assets/avatars/Black_Women_Twinkle3.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/ok.svg?options[skin][]=darkBrown&options[hairColor][]=black&options[mouth][]=twinkle')" 
+      mat-line src="assets/avatars/Black_Women_Twinkle2.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/mathews.svg?options[skin][]=darkBrown&options[hairColor][]=black&options[mouth][]=tongue')" 
+      mat-line src="assets/avatars/Black_Women_Tongue2.png"></mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list *ngIf="data.gender == 'male'" cols="2" rowHeight="2:1">
+  <mat-grid-tile href="">
+    <img  (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/agnes.svg?options%5Btop%5D%5B%5D=shortHair&options[hairColor][]=brown&options[skin][]=darkBrown&options[mouth][]=serious')" class="logo-icon" 
+      mat-line src="assets/avatars/Black_Men_Serious.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/romuald.svg?options%5Btop%5D%5B%5D=shortHair&options[hairColor][]=brown&options[skin][]=darkBrown&options[mouth][]=serious')" 
+      mat-line src="assets/avatars/Black_Men_Serious2.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/thanks.svg?options%5Btop%5D%5B%5D=shortHair&options[hairColor][]=brown&options[skin][]=darkBrown&options[mouth][]=tongue')" 
+      mat-line src="assets/avatars/Black_Men_Tongue.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/cristelle.svg?options%5Btop%5D%5B%5D=shortHair&options[hairColor][]=brown&options[skin][]=darkBrown&options[mouth][]=eating')" 
+      mat-line src="assets/avatars/Black_Men_Eating.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/example.svg?options[skin][]=black&options[hairColor][]=brown')" 
+      mat-line src="assets/avatars/Black_Men.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/lolita.svg?options[skin][]=darkBrown&options[hairColor][]=auburn&options[mouth][]=serious')" 
+      mat-line src="assets/avatars/Black_Men_Serious3.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/lilliane.svg?options[skin][]=black&options[hairColor][]=auburn&options[mouth][]=twinkle')" 
+      mat-line src="assets/avatars/Black_Men_Twinkle.png"></mat-grid-tile>
+  <mat-grid-tile>
+    <img class="logo-icon" (click)="openLink($event, 'https://avatars.dicebear.com/api/avataaars/charles.svg?options%5Btop%5D%5B%5D=shortHair&options[hairColor][]=brown&options[skin][]=darkBrown&options[mouth][]=tongue')" 
+      mat-line src="assets/avatars/Black_Men_Grimace.png"></mat-grid-tile>
+</mat-grid-list>
+
+
+<!-- <mat-nav-list>
+  <a  mat-list-item>
+    <!-- <span mat-line>Tongue Black Women</span> --
+    <img (click)="openLink($event, 'assets/avatars/Black_Women_Tongue.png')" class="logo-icon" mat-line src="assets/avatars/Black_Women_Tongue.png">
+  </a>
+
+  <a  mat-list-item>
+    <!-- <span mat-line>Serious Black Women </span> --
+    <img class="logo-icon" (click)="openLink($event, 'assets/avatars/Black_Women_Serious.png')" mat-line src="assets/avatars/Black_Women_Serious.png" width="2">
+  </a>
+
+  <a  mat-list-item >
+    <!-- <span mat-line>Twinkle Black Women </span> --
+    <img class="logo-icon" (click)="openLink($event, 'assets/avatars/Black_Women_Twinkle.png')" mat-line src="assets/avatars/Black_Women_Twinkle.png">
+  </a>
+
+  <a mat-list-item>
+    <!-- <span mat-line>Twinkle Dark Black Women</span> --
+    <img class="logo-icon" (click)="openLink($event, 'assets/avatars/Dark_Black_Women_Twinkle.png')" mat-line src="assets/avatars/Dark_Black_Women_Twinkle.png">
+  </a>
+</mat-nav-list> -->

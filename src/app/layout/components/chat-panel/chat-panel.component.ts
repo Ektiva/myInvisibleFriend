@@ -23,6 +23,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     sidebarFolded: boolean;
     user: any;
 
+
     @ViewChild('replyForm')
     private _replyForm: NgForm;
 
@@ -67,11 +68,12 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     ngOnInit(): void
     {
         // Load the contacts
-        this._chatPanelService.loadContacts().then(() => {
-
-            this.contacts = this._chatPanelService.contacts;
-            this.user = this._chatPanelService.user;
-        });
+        if(this._chatPanelService.userr){
+            this._chatPanelService.loadContactss().then(() => {
+                    this.contacts = this._chatPanelService.contactss;
+                    this.user = this._chatPanelService.userr;       
+            });
+        }  
 
         // Subscribe to the foldedChanged observable
         this._fuseSidebarService.getSidebar('chatPanel').foldedChanged
@@ -220,7 +222,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
             this.selectedContact = contact;
 
             // Load the chat
-            this._chatPanelService.getChat(contact.id).then((chat) => {
+            this._chatPanelService.getChatt(contact.id).then((chat) => {
 
                 // Set the chat
                 this.chat = chat;
@@ -254,25 +256,43 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         {
             return;
         }
-
+        let recipientId;
+        if(this.chat.dialog[0].who === this.user.id){
+            recipientId = this.chat.dialog[0].whose;
+        }else{
+            recipientId = this.chat.dialog[0].who;
+        }
         // Message
         const message = {
             who    : this.user.id,
             message: this._replyForm.form.value.message,
-            time   : new Date().toISOString()
+            time   : new Date().toISOString(),
+            whose  : recipientId
         };
 
         // Add the message to the chat
         this.chat.dialog.push(message);
+        console.log('New Dialog: ');
+        console.log(this.chat.dialog);
 
         // Reset the reply form
         this._replyForm.reset();
 
         // Update the server
-        this._chatPanelService.updateChat(this.chat.id, this.chat.dialog).then(response => {
+        this._chatPanelService.sendMessage(this.user.id, message)
+        .subscribe(
+          (message) => {
+              this._prepareChatForReplies();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        // this._chatPanelService.updateChatt(this.chat.id, this.chat.dialog).then(response => {
 
-            // Prepare the chat for the replies
-            this._prepareChatForReplies();
-        });
+        //     // Prepare the chat for the replies
+        //     this._prepareChatForReplies();
+        // });
+
     }
 }

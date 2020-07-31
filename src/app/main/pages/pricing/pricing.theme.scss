@@ -1,0 +1,20 @@
+@mixin pricing-theme($theme) {
+
+    $foreground: map-get($theme, foreground);
+
+    pricing {
+
+        #price-tables {
+
+            .faq {
+
+                .item {
+
+                    .answer {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+            }
+        }
+    }
+}

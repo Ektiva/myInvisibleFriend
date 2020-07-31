@@ -1,6 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
+import { User } from 'app/_models/user';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from 'app/_services/auth.service';
+import { UserService } from 'app/_services/user.service';
 
 @Component({
     selector     : 'profile',
@@ -11,11 +15,24 @@ import { fuseAnimations } from '@fuse/animations';
 })
 export class ProfileComponent
 {
+    user: User; 
+    photoUrl: string;
+    
     /**
      * Constructor
      */
-    constructor()
+    constructor(
+        private route: ActivatedRoute, 
+        private userService: UserService,
+        public authService: AuthService, 
+        private _router: Router)
     {
 
+    }
+
+    ngOnInit(): void
+    {
+        this.user = this.authService.currentUser;
+        this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
     }
 }

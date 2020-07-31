@@ -74,7 +74,7 @@
                      src="{{contact.avatar}}"
                      class="avatar">
 
-                <div class="bubble">
+                <div *ngIf="message.message.length > 0" class="bubble">
                     <div class="message">{{message.message}}</div>
                     <div class="time secondary-text">{{message.time | date:'short'}}</div>
                 </div>
@@ -93,18 +93,19 @@
 
         <!-- REPLY FORM -->
         <div class="reply-form" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="center center">
-
+            <!-- (ngSubmit)="reply($event)" -->
             <form #replyForm="ngForm"
-                  (ngSubmit)="reply($event)"
+                  
                   (keydown.enter)="reply($event)"
                   fxFlex fxLayout="row" fxLayoutAlign="start center">
-
-                <mat-form-field class="message-text" fxFlex floatLabel="never" appearance="standard">
+                  <button mat-icon-button (click)="emojiSelected()"><mat-icon >tag_faces</mat-icon>  </button>                          
+                <mat-form-field class="message-text" fxFlex floatLabel="never" appearance="standard">             
                     <textarea matInput #replyInput placeholder="Type your message"
-                              ngModel name="message" [rows]="1" [matTextareaAutosize]="true"></textarea>
+                              ngModel name="message" [rows]="1" [matTextareaAutosize]="true"
+                              [ngModel]="emojiMessage"></textarea>
                 </mat-form-field>
 
-                <button class="send-message-button" mat-icon-button type="submit" aria-label="Send message">
+                <button class="send-message-button" mat-icon-button type="submit" aria-label="Send message" (click)="reply($event)">
                     <mat-icon class="secondary-text">send</mat-icon>
                 </button>
 
@@ -112,8 +113,19 @@
 
         </div>
         <!-- / REPLY FORM -->
-
-    </div>
+    </div>          
+    <emoji-mart *ngIf="emojiSelect" (emojiClick)="addEmoji($event)" emoji="point_up"></emoji-mart>
+    <!-- <div *ngIf="emojiSelect">
+        <emoji-mart title="Pick your emoji…" emoji="point_up"></emoji-mart>
+        <emoji-mart set="emojione"></emoji-mart>
+        <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+        <emoji-mart
+        [style]="{ position: 'absolute', bottom: '20px', right: '20px' }"
+        ></emoji-mart>
+        <emoji-mart
+        [i18n]="{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }"
+        ></emoji-mart>
+    </div>    -->
     <!-- / CHAT FOOTER-->
 
 </div>

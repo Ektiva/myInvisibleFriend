@@ -1,16 +1,16 @@
 <div id="academy-courses" class="page-layout simple">
 
     <!-- HEADER -->
-    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
+    <div class="header primary p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
 
         <div class="hero-text">
             <mat-icon class="hero-icon">school</mat-icon>
             <h1 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
-                WELCOME TO ACADEMY
+               FIND YOUR MATCH
             </h1>
             <h3 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
-                Our courses will step you through the process of building a small application, or adding a new feature
-                to an existing application.
+                Find somedy who think like you, who come from the same country or city with you...
+                You don't need your picture or personal information!!! Share your information only when you feel comfortable with your Invisible Friend
             </h3>
         </div>
 
@@ -25,74 +25,193 @@
             <div class="filters" fxLayout="column" fxLayoutAlign="center center"
                  fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
-                <mat-form-field appearance="outline" floatLabel="always" class="course-search">
-                    <mat-label>Search for a course</mat-label>
+                <!-- <mat-form-field appearance="outline" floatLabel="always" class="course-search">
+                    <mat-label>Search by Keyword</mat-label>
                     <input matInput placeholder="Enter a keyword..."
                            [(ngModel)]="searchTerm"
                            (input)="filterCoursesByTerm()">
+                </mat-form-field> -->
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="course-search" (ngSubmit)="loadUsers()">
+                        <mat-label>Age From</mat-label>
+                        <input matInput placeholder="min age..." type="number"
+                               [(ngModel)]="userParams.minAge" name="minAge">
+                    </mat-form-field>
+
+                <mat-form-field appearance="outline" floatLabel="always" class="course-search">
+                    <mat-label>Age To</mat-label>
+                    <input matInput placeholder="max age..." type="number"
+                           [(ngModel)]="userParams.maxAge" name="maxAge">
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="category-selector">
-                    <mat-label>Category</mat-label>
-                    <mat-select [(ngModel)]="currentCategory"
-                                (selectionChange)="filterCoursesByCategory()">
-                        <mat-option [value]="'all'">
-                            All
-                        </mat-option>
-                        <mat-option *ngFor="let category of categories" [value]="category.value">
-                            {{ category.label }}
+                <mat-form-field appearance="outline" class="course-search">
+                    <mat-label>Show</mat-label>
+                    <mat-select [(ngModel)]="userParams.gender" name="gender">
+                        <mat-option *ngFor="let gender of genderList" [value]="gender.value">
+                            {{gender.display}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
+                <!-- <mat-form-field appearance="outline" class="course-search">
+                    <mat-label>From</mat-label>
+                    <mat-select [(ngModel)]="userParams.gender" name="gender">
+                        <mat-option *ngFor="let gender of genderList" [value]="gender.value">
+                            {{gender.display}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="course-search">
+                    <mat-label>Leaves at</mat-label>
+                    <mat-select [(ngModel)]="userParams.gender" name="gender">
+                        <mat-option *ngFor="let gender of genderList" [value]="gender.value">
+                            {{gender.display}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
             </div>
 
-            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+            <div class="filters line2" fxLayout="column" fxLayoutAlign="center center"
+                 fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
-                <div class="course" *ngFor="let course of filteredCourses" fxFlex="100" fxFlex.gt-xs="50"
-                     fxFlex.gt-sm="33" [ngClass]="course.category" [@animate]="{value:'*',params:{y:'100%'}}">
+                 <div class="text-center mt-2">
+                    <h2 style="color: orange; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Your matches - {{pagination?.totalItems}} found</h2>
+                </div>
 
-                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle (click)="loadUsers()" value="Likers" class="light-green">  <mat-icon >search</mat-icon> Apply Filters </mat-button-toggle>
+                    <mat-button-toggle (click)="resetFilters()" value="Likees" class="pink"> <mat-icon >not_interested</mat-icon> Reset Filters </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
 
-                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                             [ngClass]="course.category + '-bg'">
+            <mat-button-toggle-group class="pt-4" name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle matInput="lastActive" (click)="loadUsers('lastActive')" value="lastActive">   Last Active </mat-button-toggle>
+                <mat-button-toggle btnRadio="created" (click)="loadUsers('created')" value="created"> Newest Members </mat-button-toggle>
+            </mat-button-toggle-group>
 
-                            <div class="category" fxFlex>
-                                {{course.category}}
+            <!-- <div class="col">
+                <div class="btn-group float-right">
+                  <button type="button" name="orderBy" class="btn btn-primary" 
+                    [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="lastActive"> Last Active</button>
+                  <button type="button" name="orderBy" class="btn btn-primary" 
+                    [(ngModel)]="userParams.orderBy" (click)="loadUsers()"  btnRadio="created">Newest Members</button>
+                </div>
+              </div> -->
+
+            <div *ngFor="let user of users" id="container">
+                <div class="product-details">                       
+                    <h1>{{ user.knownAs}} </h1>
+                   <span class="test2" >{{ user.gender}} - {{ user.age}}</span>                  
+
+                    <div class="card-divider"></div>
+                    
+                        <div class=" pt-4">
+                            <!-- *ngIf="user.jobtitle.length > 12"  -->
+                            <div *ngIf="user.jobtitle.length > 15 && user.country.length > 15 " class="mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="test3">{{user.jobtitle | slice:0:14 }}.. - {{ user.country | slice:0:14}}..</div>
                             </div>
-
-                            <div class="length" fxLayout="row" fxLayoutAlign="center center">
-                                <mat-icon class="length-icon s-20">access_time</mat-icon>
-                                <div class="min">{{course.length}} min</div>
+                            <div *ngIf="user.jobtitle.length > 15 && user.country.length <= 15 " class="mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="test3">{{user.jobtitle | slice:0:14 }}.. - {{ user.country}}</div>
                             </div>
+                            <div *ngIf="user.jobtitle.length <= 15 && user.country.length > 15 " class="mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="test3">{{user.jobtitle }} - {{ user.country | slice:0:14}}</div>
+                            </div>
+                            <div *ngIf="user.jobtitle.length <= 15 && user.country.length <= 15 " class="mb-12" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="test3">{{user.jobtitle}} - {{ user.country}}</div>
+                            </div>
+                            <div class=" pb-4">    
+                                <!-- <mat-grid-list  cols="2" rowHeight="2:1">
+                                    <mat-grid-tile href="">
+                                        <div class="pb-8" fxLayoutAlign="start center">
+                                            <mat-icon class="icon s-16 mr-16">timeline</mat-icon>
+                                            <div>{{user.feet}}' {{user.size}}"</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="pb-8" fxLayoutAlign="start center">
+                                            <mat-icon class="icon s-16 mr-16">timeline</mat-icon>
+                                            <div>{{user.feet}}' {{user.size}}"</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="pb-8" fxLayout="row" fxLayoutAlign="start center">
+                                            <mat-icon class="icon s-16 mr-16">line_weight</mat-icon>
+                                            <div>{{user.pound}} kg</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="pb-8" fxLayout="row" fxLayoutAlign="start center">
+                                            <mat-icon class="icon s-16 mr-16">line_weight</mat-icon>
+                                            <div>{{user.pound}} kg</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                   
+                                  </mat-grid-list> -->
+                                
+                                <div class="pb-8" fxLayoutAlign="start center">
+                                    <mat-icon class="icon s-16 mr-16">timeline</mat-icon>
+                                    <div *ngIf="user.size < 10" class="pr-44">{{user.feet}}' 0{{user.size}}"</div>
+                                    <div *ngIf="user.size >= 10" class="pr-44">{{user.feet}}' {{user.size}}"</div>
 
-                        </div>
+                                    <mat-icon class="icon s-16 mr-16">smoke_free</mat-icon>
+                                    <div>{{user.smoke}}</div>
+                                </div>
+                                <div class="pb-8" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="icon s-16 mr-16">line_weight</mat-icon>
+                                    <div class="pr-48">{{user.pound}} kg</div>
 
-                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
-                            <div class="h1">{{course.title}}</div>
-                            <div class="updated">Updated {{course.updated}}</div>
-                        </div>
+                                    <mat-icon class="icon s-16 mr-16">local_bar</mat-icon>
+                                    <div>{{user.drink}}</div>
+                                </div>
+                            </div>
+                    
+                            <div class="mb-12" fxLayout="row" fxLayoutAlign="center center" style="width: 200; height: 180;">
+                                <div class="updated"> {{user.introduction | slice:0:100}}..</div>
+                            </div>
+                        </div> 
 
+                        <hr style="color: pink">
+
+                    <div class="control"></div>    
+                    <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="center center">
                         <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <button  mat-button color="accent"
+                                    (click)="sendLike(user.id)">                     
+                                    <mat-icon class="s-32 favorite mr-sm-4">{{favoriteIcon.get(user.id)}}</mat-icon>
+                            </button>
+                            
+                            <button *ngIf="(favoriteIcon.get(user.id) === 'favorite')" mat-button color="accent"
+                                    [routerLink]="'/apps/chat'">
+                                    <mat-icon class="s-32 mr-sm-4">chat</mat-icon>
+                            </button>
+
+                            <button *ngIf="(favoriteIcon.get(user.id) === 'favorite_border')" mat-button color="accent"
+                                    (click)="openDialog()">
+                                    <mat-icon class="s-32 mr-sm-4">chat</mat-icon>
+                            </button>
+                            
                             <button mat-button color="accent"
-                                    [routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">
-                                START
+                                    [routerLink]="'/pages/member/' + user.id">
+                                    
+                                    <mat-icon class="s-32 mr-sm-4">arrow_forward</mat-icon>
                             </button>
                         </div>
-
+                    </div>                       
+                </div>                   
+                <div class="product-image">                   
+                    <img src="assets/images/others/flowers.jpg" alt="Omar Dsoky">
+                    <div class="info">
+                        <h2>More About {{ user.knownAs}}</h2>
+                        <ul>
+                            <li><strong>Age: </strong>{{user.age}} years old</li>
+                            <li><strong>Last Active: </strong>{{user.lastActive | TimesAgosPipe}}</li>
+                            <li><strong>Member since: </strong>{{ user.created | date: 'longDate' }}</li>
+                            <li><strong>From: </strong>{{user.address}}</li>
+                            <li><strong>Leave at: </strong>{{user.city}}, {{user.country}}</li>
+                            <li><strong>Interests: </strong>{{user.interests}}</li>
+                        </ul>
                     </div>
-
                 </div>
-
-                <div class="no-courses" *ngIf="filteredCourses.length === 0">
-                    No courses found!
-                </div>
-
             </div>
-
-        </div>
-
     </div>
-    <!-- / CONTENT -->
 
 </div>

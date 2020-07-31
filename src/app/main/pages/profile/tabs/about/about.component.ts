@@ -1,9 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild, HostListener } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { ProfileService } from 'app/main/pages/profile/profile.service';
+import { AuthService } from 'app/_services/auth.service';
+import { NgForm } from '@angular/forms';
+import { UserService } from 'app/_services/user.service';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import { BottomSheetOverviewExampleSheetComponent } from '../bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.component';
 
 @Component({
     selector     : 'profile-about',
@@ -12,9 +17,19 @@ import { ProfileService } from 'app/main/pages/profile/profile.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class ProfileAboutComponent implements OnInit, OnDestroy
-{
+export class ProfileAboutComponent implements OnInit, OnDestroy{
+    @ViewChild('editForm', {static: true}) editForm: NgForm;
     about: any;
+    user: any;
+
+    step = 0;
+
+    @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any){
+      if(this.editForm.dirty){
+        $event.returnValue = true;
+      }
+    }
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -25,6 +40,9 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
      * @param {ProfileService} _profileService
      */
     constructor(
+        private _bottomSheet: MatBottomSheet,
+        private userService: UserService,
+        public authService: AuthService,
         private _profileService: ProfileService
     )
     {
@@ -32,6 +50,11 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
         this._unsubscribeAll = new Subject();
     }
 
+    openBottomSheet(): void {
+        this._bottomSheet.open(BottomSheetOverviewExampleSheetComponent, {
+            data: { gender: [this.user.gender] },
+          });
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -46,6 +69,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
             .subscribe(about => {
                 this.about = about;
             });
+        this.user = this.authService.currentUser;
     }
 
     /**
@@ -56,5 +80,29 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    UpdateUser(){
+        this.userService
+          .updateUser(this.authService.decodedToken.nameid, this.user)
+          .subscribe(
+            next => {
+            //   this.alertify.success('Profile updated successfully');
+            //   this.editForm.reset(this.currUser);
+        }, error => {
+            console.log(error);
+        });
+    }
+
+    setStep(index: number) {
+        this.step = index;
+      }
+    
+    nextStep() {
+    this.step++;
+    }
+
+    prevStep() {
+    this.step--;
     }
 }

@@ -5,19 +5,19 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { PricingStyle3Component } from 'app/main/pages/pricing/style-3/style-3.component';
+import { PricingComponent } from 'app/main/pages/pricing/pricing.component';
 
 const routes = [
     
     {
-        path     : 'pricing/style-3',
-        component: PricingStyle3Component
+        path     : 'pricing',
+        component: PricingComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        PricingStyle3Component
+        PricingComponent
     ],
     imports     : [
         RouterModule.forChild(routes),

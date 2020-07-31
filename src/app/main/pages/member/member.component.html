@@ -1,0 +1,39 @@
+<div id="profile" class="page-layout simple tabbed">
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+         fxLayoutAlign.gt-sm="space-between end">
+
+        <div *ngIf="user" class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+             fxLayoutAlign.gt-sm="start center">
+            <img class="profile-image avatar huge" src="{{user.avatar}}"
+                 [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{user.knownAs}} {{user.lastname}}
+            </div>
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
+            <button *ngIf="!like" mat-raised-button color="accent" aria-label="Follow" (click)="sendLike(user.id)">Like</button>
+            <button *ngIf="like" mat-raised-button color="warn" aria-label="Follow" (click)="sendLike(user.id)">UnLike</button>
+            <button mat-raised-button color="primary" aria-label="Send Message" [routerLink]="'/apps/chat'">Send Message</button>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <mat-tab-group dynamicHeight="true">
+
+            <mat-tab label="{{user.knownAs}}'s Profile">
+                <member-about></member-about>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

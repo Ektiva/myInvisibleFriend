@@ -2,24 +2,16 @@ export const locale = {
     lang: 'en',
     data: {
         'NAV': {
-            'APPLICATIONS': 'Applications',
+            'APPLICATIONS': 'Features',
             'DASHBOARDS'  : 'Dashboards',
-            'CALENDAR'    : 'Calendar',
-            'ECOMMERCE'   : 'E-Commerce',
-            'ACADEMY'     : 'Academy',
-            'MAIL'        : {
-                'TITLE': 'Mail',
-                'BADGE': '25'
-            },
-            'MAIL_NGRX'        : {
-                'TITLE': 'Mail Ngrx',
-                'BADGE': '13'
-            },
+            'ACADEMY'     : 'iFriends',
             'CHAT'        : 'Chat',
-            'FILE_MANAGER': 'File Manager',
-            'CONTACTS'    : 'Contacts',
-            'TODO'        : 'To-Do',
-            'SCRUMBOARD'  : 'Scrumboard'
+            'EDITPROFILE' : 'Edit Profile',
+            'NEWSFEED'    : 'News Feed',
+            'MEMBERS'    : 'Members',
+            'LEARNMORE'   : 'Lear More',
+            'UPGRADEMEMBERSHIP'     : 'Upgrade Membership',
+            'MYLIKES'   : 'myLikes'
         }
     }
 };

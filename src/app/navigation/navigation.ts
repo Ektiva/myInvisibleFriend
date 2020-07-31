@@ -2,74 +2,70 @@ import { FuseNavigation } from '@fuse/types';
 
 export const navigation: FuseNavigation[] = [
     {
-        id       : 'applications',
-        title    : 'Applications',
-        translate: 'NAV.APPLICATIONS',
+        id       : 'dashboards',
+        title    : 'Dashboards',
+        translate: 'NAV.DASHBOARDS',
         type     : 'group',
-        icon     : 'apps',
+        icon     : 'dashboard',
         children : [
             {
-                id       : 'dashboards',
-                title    : 'Dashboards',
-                translate: 'NAV.DASHBOARDS',
-                type     : 'collapsable',
-                icon     : 'dashboard',
-                children : [
-                    {
-                        id   : 'profile',
-                        title: 'Profile',
-                        type : 'item',
-                        icon : 'person',
-                        url  : '/pages/profile'
-                    },
-                    {
-                        id       : 'chat',
-                        title    : 'Chat',
-                        translate: 'NAV.CHAT',
-                        type     : 'item',
-                        icon     : 'chat',
-                        url      : '/apps/chat',
-                        badge    : {
-                            title: '13',
-                            bg   : '#09d261',
-                            fg   : '#FFFFFF'
-                        }
-                    },
-                    {
-                        id       : 'academy',
-                        title    : 'Academy',
-                        translate: 'NAV.ACADEMY',
-                        type     : 'item',
-                        icon     : 'school',
-                        url      : '/apps/academy'
-                    },
-                    {
-                        id   : 'forms',
-                        title: 'Forms',
-                        type : 'item',
-                        icon : 'web_asset',
-                        url  : '/ui/forms'
-                    }
-                ]
+                id       : 'ifriends',
+                title    : 'iFriends',
+                translate: 'NAV.ACADEMY',
+                type     : 'item',
+                icon     : 'people',
+                url      : '/apps/members/ifriends'
+            },
+            {
+                id       : 'likes',
+                title    : 'myLikes',
+                translate: 'NAV.MYLIKES',
+                type     : 'item',
+                icon     : 'thumb_up',
+                url      : '/apps/members/likes'
+            },
+            {
+                id       : 'chat',
+                title    : 'Chat',
+                translate: 'NAV.CHAT',
+                type     : 'item',
+                icon     : 'chat',
+                url      : '/apps/chat'
+                // badge    : {
+                //     title: '13',
+                //     bg   : '#09d261',
+                //     fg   : '#FFFFFF'
+                // }
+            },
+            {
+                id   : 'profile',
+                title: 'Edit Profile',                       
+                translate: 'NAV.EDITPROFILE',
+                type : 'item',
+                icon : 'person',
+                url  : '/pages/profile'
             }
+     
         ]
     },
    {
         id      : 'pages',
-        title   : 'Pages',
+        title   : 'Learn More',
+        translate: 'NAV.LEARNMORE',
         type    : 'group',
         icon    : 'pages',
         children: [
             {
                 id      : 'pricing',
                 title   : 'Upgrade Membership',
-                type    : 'collapsable',
+                translate: 'NAV.UPGRADEMEMBERSHIP',
+                type    : 'item',
                 icon    : 'attach_money',
-                url  : '/pages/pricing/style-3'
+                url  : '/pages/pricing'
             },
             {
                 id   : 'knowledge-base',
-                title: 'Faq',
+                title: 'Blog',
                 type : 'item',
                 icon : 'import_contacts',
                 url  : '/pages/knowledge-base'
@@ -77,3 +73,98 @@ export const navigation: FuseNavigation[] = [
         ]
     }
 ];
+
+
+// import { FuseNavigation } from '@fuse/types';
+
+// export const navigation: FuseNavigation[] = [
+//     {
+//         id       : 'applications',
+//         title    : 'Features',
+//         translate: 'NAV.APPLICATIONS',
+//         type     : 'group',
+//         icon     : 'apps',
+//         children : [
+//             {
+//                 id       : 'dashboards',
+//                 title    : 'Dashboards',
+//                 translate: 'NAV.DASHBOARDS',
+//                 type     : 'collapsable',
+//                 icon     : 'dashboard',
+//                 children : [
+//                     {
+//                         id   : 'profile',
+//                         title: 'NewsFeed',                       
+//                         translate: 'NAV.NEWSFEED',
+//                         type : 'item',
+//                         icon : 'collections',
+//                         url  : '/pages/profile'
+//                     },
+//                     {
+//                         id       : 'chat',
+//                         title    : 'Chat',
+//                         translate: 'NAV.CHAT',
+//                         type     : 'item',
+//                         icon     : 'chat',
+//                         url      : '/apps/chat',
+//                         badge    : {
+//                             title: '13',
+//                             bg   : '#09d261',
+//                             fg   : '#FFFFFF'
+//                         }
+//                     },
+//                     {
+//                         id       : 'ifriends',
+//                         title    : 'iFriends',
+//                         translate: 'NAV.ACADEMY',
+//                         type     : 'item',
+//                         icon     : 'people',
+//                         url      : '/apps/members/ifriends'
+//                     },
+//                     {
+//                         id       : 'likes',
+//                         title    : 'myLikes',
+//                         translate: 'NAV.MYLIKES',
+//                         type     : 'item',
+//                         icon     : 'thumb_up',
+//                         url      : '/apps/members/likes'
+//                     },
+//                     {
+//                         id   : 'forms',
+//                         title: 'Edit Profile',                      
+//                         translate: 'NAV.EDITPROFILE',
+//                         type : 'item',
+//                         icon : 'person',
+//                         url  : '/ui/forms'
+//                     }
+//                 ]
+//             }
+//         ]
+//     },
+//    {
+//         id      : 'pages',
+//         title   : 'Learn More',
+//         translate: 'NAV.LEARNMORE',
+//         type    : 'group',
+//         icon    : 'pages',
+//         children: [
+//             {
+//                 id      : 'pricing',
+//                 title   : 'Upgrade Membership',
+//                 translate: 'NAV.UPGRADEMEMBERSHIP',
+//                 type    : 'item',
+//                 icon    : 'attach_money',
+//                 url  : '/pages/pricing'
+//             },
+//             {
+//                 id   : 'knowledge-base',
+//                 title: 'Faq',
+//                 type : 'item',
+//                 icon : 'import_contacts',
+//                 url  : '/pages/knowledge-base'
+//             }
+//         ]
+//     }
+// ];
+
+

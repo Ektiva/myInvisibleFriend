@@ -7,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseMatSidenavHelperService } from '@fuse/directives/fuse-mat-sidenav/fuse-mat-sidenav.service';
 
 import { ChatService } from 'app/main/apps/chat/chat.service';
+import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 
 @Component({
     selector     : 'chat-chats-sidenav',
@@ -23,6 +24,15 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
     searchText: string;
     user: any;
 
+    chatss: any[];
+    contactss: any[];
+    userr: any;
+
+    userTest: any;
+
+    unread: number;
+    navigation: any;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -35,6 +45,7 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
      */
     constructor(
         private _chatService: ChatService,
+        private _fuseNavigationService: FuseNavigationService,
         private _fuseMatSidenavHelperService: FuseMatSidenavHelperService,
         public _mediaObserver: MediaObserver
     )
@@ -58,9 +69,26 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.user = this._chatService.user;
-        this.chats = this._chatService.chats;
-        this.contacts = this._chatService.contacts;
+        this.user = this._chatService.userr;
+
+        this.user.chatList.sort((c1, c2) => (c2.lastMessageTime > c1.lastMessageTime ? 1 : -1));
+
+        // console.log('User');
+        // console.log(this.userTest);
+        this.userr = this._chatService.userr;
+        // console.log('Userr');
+        // console.log(this.userr);
+
+        this.chats = this._chatService.chatss;
+
+        // this.chatss = this._chatService.chatss;
+
+        this.contacts = this._chatService.contactss;
+        // console.log('Contacts');
+        // console.log(this.contacts);
+        // this.contactss = this._chatService.contacts;
+        // console.log('Contactss');
+        // console.log(this.contactss);
 
         this._chatService.onChatsUpdated
             .pipe(takeUntil(this._unsubscribeAll))
@@ -72,7 +100,14 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(updatedUser => {
                 this.user = updatedUser;
-            });
+        });
+
+        this._chatService.unread$.subscribe(unread => this.unread = unread);
+        // console.log(this.unread);
+
+        this._fuseNavigationService.navigation$.subscribe(navigation => this.navigation = navigation);
+        // console.log('current navigation in Chat');
+        // console.log(this.navigation);
     }
 
     /**
@@ -103,6 +138,29 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
             this._fuseMatSidenavHelperService.getSidenav('chat-left-sidenav').toggle();
         }
     }
+
+    /**
+     * Get chat
+     *
+     * @param contact
+     */
+    getChatt(contact): void
+    {
+        this._chatService.markAsRead(this.user.id, contact);
+        this.user.chatList.forEach(chat => {
+            if(chat.contactId === contact){
+                chat.unread = 0;
+            }
+        });
+        this._chatService.getChatt(contact); 
+
+        if ( !this._mediaObserver.isActive('gt-md') )
+        {
+            this._fuseMatSidenavHelperService.getSidenav('chat-left-sidenav').toggle();
+        }
+    }
+
+    
 
     /**
      * Set user status

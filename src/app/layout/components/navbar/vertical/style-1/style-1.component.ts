@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
+import { Subject, Observable } from 'rxjs';
 import { delay, filter, take, takeUntil } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { User } from 'app/_models/user';
+import { AuthService } from 'app/_services/auth.service';
+import { UserService } from 'app/_services/user.service';
+import { ChatService } from 'app/main/apps/chat/chat.service';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -18,6 +22,12 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
     fuseConfig: any;
     navigation: any;
+
+    user: User; 
+    photoUrl: string;
+
+    unread: number;
+
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -31,7 +41,11 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {Router} _router
      */
-    constructor(
+    constructor( 
+        private chatService: ChatService,
+        private route: ActivatedRoute, 
+        private userService: UserService,
+        public authService: AuthService, 
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
@@ -119,6 +133,13 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
             .subscribe(() => {
                 this.navigation = this._fuseNavigationService.getCurrentNavigation();
             });
+
+        this.user = this.authService.currentUser;
+        this.chatService.unread$.subscribe(unread => this.unread = unread);
+        // console.log(this.unread);
+        // console.log('current navigation');
+        // console.log(this.navigation);
+        
     }
 
     /**

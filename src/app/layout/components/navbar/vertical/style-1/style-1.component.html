@@ -27,10 +27,11 @@
 
     <div class="user" fxLayout="column" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
 
-        <div class="h3 username">Charlie Adams</div>
-        <div class="h5 email hint-text mt-8">adams.charlie@mail.com</div>
-        <div class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
-            <img class="avatar" src="assets/images/avatars/Velazquez.jpg">
+        <div class="h3 username"> {{authService.decodedToken?.unique_name}}</div>
+        <div class="h5 email hint-text mt-8">{{authService.decodedToken?.unique_name}}</div>
+        <div *ngIf="user" class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
+            <img class="avatar" src="{{user.avatar}}">
+            <!-- <img *ngIf="!user.avatar" class="avatar" src="{{user.avatar}}"> -->
         </div>
 
     </div>

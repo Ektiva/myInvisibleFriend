@@ -9,6 +9,11 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
+
+import { locale as english } from './i18n/en';
+import { locale as french } from './i18n/fr';
+import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+
 @Component({
     selector     : 'fuse-theme-options',
     templateUrl  : './theme-options.component.html',
@@ -43,7 +48,8 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
-        private _renderer: Renderer2
+        private _renderer: Renderer2,
+        private translationLoader: FuseTranslationLoaderService
     )
     {
         // Set the defaults
@@ -51,6 +57,9 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        // Translation
+        this.translationLoader.loadTranslations(english, french);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -114,7 +123,8 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
         this.form.get('layout.style').valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((value) => {
-
+                console.log('I am theme changes');
+                console.log(value);
                 // Reset the form values based on the
                 // selected layout style
                 this._resetFormValues(value);
@@ -132,20 +142,13 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
         // Add customize nav item that opens the bar programmatically
         const customFunctionNavItem = {
             id      : 'custom-function',
-            title   : 'Custom Function',
-            type    : 'group',
+            title   : 'Customize',
+            translate: 'THEM.CUSTOMIZE',
+            type    : 'item',
             icon    : 'settings',
-            children: [
-                {
-                    id      : 'customize',
-                    title   : 'Customize',
-                    type    : 'item',
-                    icon    : 'settings',
-                    function: () => {
-                        this.toggleSidebarOpen('themeOptionsPanel');
-                    }
-                }
-            ]
+            function: () => {
+                this.toggleSidebarOpen('themeOptionsPanel');
+            }
         };
 
         this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
@@ -186,8 +189,8 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
                     layout: {
                         width    : 'fullwidth',
                         navbar   : {
-                            primaryBackground  : 'fuse-navy-700',
-                            secondaryBackground: 'fuse-navy-900',
+                            primaryBackground  : 'cyan-100',
+                            secondaryBackground: 'cyan-300',
                             folded             : false,
                             hidden             : false,
                             position           : 'left',

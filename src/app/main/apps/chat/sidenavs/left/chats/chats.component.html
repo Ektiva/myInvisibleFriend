@@ -7,7 +7,7 @@
         <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
 
             <!-- USER AVATAR WRAPPER -->
-            <div class="avatar-wrapper">
+            <div *ngIf="user" class="avatar-wrapper">
 
                 <!-- USER AVATAR -->
                 <img (click)="changeLeftSidenavView('user')"
@@ -112,7 +112,7 @@
 
             <button mat-button class="contact"
                     *ngFor="let chat of user.chatList | filter: searchText"
-                    (click)="getChat(chat.contactId)" ngClass="{'unread':contact.unread}"
+                    (click)="getChatt(chat.contactId)" ngClass="{'unread':contact.unread}"
                     [@animate]="{value:'*',params:{y:'100%'}}">
 
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -155,7 +155,7 @@
 
             <button mat-button class="contact"
                     *ngFor="let contact of contacts| filter: searchText"
-                    (click)="getChat(contact.id)"
+                    (click)="getChatt(contact.id)"
                     [@animate]="{value:'*',params:{y:'100%'}}">
 
                 <div fxLayout="row" fxLayoutAlign="start center">

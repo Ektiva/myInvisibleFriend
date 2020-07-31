@@ -21,6 +21,20 @@ import { AppComponent } from 'app/app.component';
 import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AuthGuard } from './_guards/auth.guard';
+import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ListsResolver } from './_resolvers/lists.resolver';
+import { LikesResolver } from './_resolvers/likes.resolver';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { ChatService } from './main/apps/chat/chat.service';
+// import { TimeAgoExtendsPipe } from './TimeAgoExtendsPipe.pipe';
+// import { DialogElementsExampleDialogComponent } from './DialogElementsExampleDialog/DialogElementsExampleDialog.component';
+
+export function tokenGetter() {
+    return localStorage.getItem('token');
+  }
 
 const appRoutes: Routes = [
     {
@@ -43,21 +57,22 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports     : [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
-
-        TranslateModule.forRoot(),
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay             : 0,
-            passThruUnknownUrl: true
-        }),
-
+   declarations: [
+      AppComponent
+      //TimeAgoExtendsPipe,
+    //   DialogElementsExampleDialogComponent
+   ],
+   imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      HttpClientModule,
+      RouterModule.forRoot(appRoutes),
+      TranslateModule.forRoot(),
+      InMemoryWebApiModule.forRoot(FakeDbService, { 
+          delay: 0,
+          passThruUnknownUrl: true
+      }),
+        MatSnackBarModule,
         // Material moment date module
         MatMomentDateModule,
 
@@ -74,10 +89,27 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        AppStoreModule
+        AppStoreModule,
+
+        JwtModule.forRoot({
+            config: {
+              tokenGetter,
+              whitelistedDomains: ['localhost:44382'],
+              blacklistedRoutes: ['localhost:44382/api/auth']
+            }
+        })
+    ],
+    exports   : [
+        MatSnackBarModule
     ],
     providers: [
-        AuthGuard
+        AuthGuard,
+        MemberListResolver,
+        ListsResolver,
+        LikesResolver,
+        PreventUnsavedChanges,
+        MemberDetailResolver,
+        ChatService
     ],
     bootstrap   : [
         AppComponent
